@@ -10,6 +10,7 @@
     "start": "webpack serve --mode development --open"
   },
   "devDependencies": {
+    "babel-loader": "8.2.3",
     "eslint": "7.32.0",
     "eslint-config-htmlacademy": "5.0.0",
     "webpack": "5.62.1",
