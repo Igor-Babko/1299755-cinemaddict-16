@@ -12,3 +12,5 @@ Thumbs.db
 node_modules/
 
 # Собранные файлы (допишите самостоятельно)
+piblic/bundle.js
+piblic/bundle.js.map
