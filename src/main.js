@@ -52,6 +52,6 @@ for (let i = 0; i < cardCount; i++) {
 
 renderTemplate(filmsWrapper, showFilmsListExtra(), RenderPosition.BEFOREEND);
 renderTemplate(siteFooterElement, showFooterStatistic(), RenderPosition.BEFOREEND);
-// renderTemplate(siteFooterElement, createPopupFilmDetails(), RenderPosition.AFTEREND);
+renderTemplate(siteFooterElement, createPopupFilmDetails(), RenderPosition.AFTEREND);
 renderTemplate(siteFooterElement, showStatistic(), RenderPosition.AFTEREND);
 

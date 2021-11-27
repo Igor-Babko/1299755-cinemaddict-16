@@ -519,8 +519,8 @@ for (let i = 0; i < cardCount; i++) {
 }
 
 renderTemplate(filmsWrapper, (0,_view_films_list_extra_view_js__WEBPACK_IMPORTED_MODULE_0__.showFilmsListExtra)(), RenderPosition.BEFOREEND);
-renderTemplate(siteFooterElement, (0,_view_menu_view_js__WEBPACK_IMPORTED_MODULE_2__.showFooterStatistic)(), RenderPosition.BEFOREEND); // renderTemplate(siteFooterElement, createPopupFilmDetails(), RenderPosition.AFTEREND);
-
+renderTemplate(siteFooterElement, (0,_view_menu_view_js__WEBPACK_IMPORTED_MODULE_2__.showFooterStatistic)(), RenderPosition.BEFOREEND);
+renderTemplate(siteFooterElement, (0,_view_information_popup_view_js__WEBPACK_IMPORTED_MODULE_1__.createPopupFilmDetails)(), RenderPosition.AFTEREND);
 renderTemplate(siteFooterElement, (0,_view_menu_view_js__WEBPACK_IMPORTED_MODULE_2__.showStatistic)(), RenderPosition.AFTEREND);
 })();
 
