@@ -3,7 +3,6 @@ export const createMovieCard = (card) => {
     name,
     poster,
     description,
-    comments,
     year,
     genre,
     rating,

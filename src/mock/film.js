@@ -1,9 +1,10 @@
 import {
   getRandomInteger
 } from '../utils/utils.js';
-import dayjs from 'dayjs';
+
 
 let movieId = 0;
+
 
 const descriptions = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -29,6 +30,16 @@ const genres = [
   'Детективный фильм',
   'Детское кино'
 ];
+
+const generateGenre = (genr) => {
+  const countGenre = getRandomInteger(1, 3);
+  let readyGenres = '';
+  for (let i = 0; countGenre > i; i++) {
+    readyGenres = `${readyGenres} ${genr[getRandomInteger(0,7)]}`;
+  }
+  return readyGenres;
+};
+
 
 const filmsNames = [
   'Venom',
@@ -98,13 +109,13 @@ const getRandomData = (elements) => elements[getRandomInteger(0, elements.length
 
 
 const years = [
-  1947,
-  1975,
-  1985,
-  1990,
-  1978,
-  1999,
-  2005
+  '01 April 1995',
+  '02 March 1999',
+  '03 June 2001',
+  '04 Jule 2003',
+  '07 September 1995',
+  '15 October 2001',
+  '23 April 2021'
 ];
 
 // const generateComments = () => {
@@ -198,7 +209,7 @@ export const createCard = () => {
     description: generateDescription(),
     //comments: [{},{},{}],
     year: getRandomData(years),
-    genre: getRandomData(genres),
+    genre: generateGenre(genres),
     rating: generateRating(),
     duration: generateDuration(),
     originalName: getRandomData(filmsNames),
@@ -213,3 +224,5 @@ export const createCard = () => {
   };
   return card;
 };
+
+

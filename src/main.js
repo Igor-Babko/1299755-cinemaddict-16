@@ -6,7 +6,6 @@ import {
   createPopupFilmDetails
 } from './view/information-popup-view.js';
 import {
-  showNav,
   showStatistic,
   sortFilms,
   createFilmsWrapper,
@@ -26,9 +25,12 @@ import {
   generateFilter
 } from './mock/filter.js';
 
+const fiveFilms = 5;
 const mockCount = 20;
 const mocks = [];
 const cardCount = 5;
+let openedFilms = 5;
+
 
 const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
@@ -69,6 +71,7 @@ for (let i = 0; i < cardCount; i++) {
   renderTemplate(filmsContainer, createMovieCard(mocks[i]), RenderPosition.BEFOREEND);
 }
 
+
 const extraTopWrapper = filmsWrapper.querySelector('.film-list__container_top');
 const extraWrapperMostCommented = filmsWrapper.querySelector('.film-list__container_most_commented');
 
@@ -78,5 +81,22 @@ renderTemplate(extraTopWrapper, createMovieCard(mocks[1]), RenderPosition.BEFORE
 renderTemplate(extraWrapperMostCommented, createMovieCard(mocks[2]), RenderPosition.BEFOREEND);
 renderTemplate(extraWrapperMostCommented, createMovieCard(mocks[3]), RenderPosition.BEFOREEND);
 renderTemplate(siteFooterElement, showFooterStatistic(), RenderPosition.BEFOREEND);
-// renderTemplate(siteFooterElement, createPopupFilmDetails(), RenderPosition.AFTEREND);
-// renderTemplate(siteFooterElement, showStatistic(), RenderPosition.AFTEREND);
+//renderTemplate(siteFooterElement, createPopupFilmDetails(mocks[0]), RenderPosition.AFTEREND);
+//renderTemplate(siteFooterElement, showStatistic(), RenderPosition.AFTEREND);
+
+const filmsLoader = document.querySelector('.films-list__show-more');
+const addFiveFilmsHandler = () => {
+  for (let i = openedFilms; i < mocks.length; i++) {
+    openedFilms += 1;
+    renderTemplate(filmsContainer, createMovieCard(mocks[i]), RenderPosition.BEFOREEND);
+    if (openedFilms === mocks.length) {
+      filmsLoader.style.display = 'none';
+      filmsLoader.removeEventListener('click', addFiveFilmsHandler);
+    }
+    if ((i + 1) % fiveFilms === 0) {
+      break;
+    }
+  }
+};
+
+filmsLoader.addEventListener('click', addFiveFilmsHandler);

@@ -83,13 +83,6 @@ export const showStatistic = (filter) => {
 </section>`;
 };
 
-// export const showNav = () => (
-
-// );
-
-// <a href="#isWachList" class="main-navigation__item">isWachList <span class="main-navigation__item-count">${isWatchList}</span></a>
-// <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${naviData[0].isFavorites}</span></a>
-// <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${isFavorites}</span></a>
 export const createFilmsWrapper = () => (
   `<section class="films">
 <section class="films-list">
@@ -100,8 +93,8 @@ export const createFilmsWrapper = () => (
   </section>
   </section>`
 );
-export const showFooterStatistic = (count) => {
-  const moviesCount = count;
+export const showFooterStatistic = () => {
+  const moviesCount = 20;
   return `<section class="footer__statistics">
 <p>${moviesCount} movies inside</p>
 </section>`;

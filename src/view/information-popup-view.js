@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+
 export const createPopupFilmDetails = (card) => {
   const {
     name,
@@ -57,11 +57,11 @@ export const createPopupFilmDetails = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${year.format('DD MMMM YYYY')}</td>
+              <td class="film-details__cell">${year}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${duration.format('«h m»')}</td>
+              <td class="film-details__cell">${duration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
