@@ -1,5 +1,8 @@
+import {
+  createElement
+} from '../render.js';
 
-export const createPopupFilmDetails = (card) => {
+const createPopupFilmDetails = (card) => {
   const {
     name,
     poster,
@@ -180,3 +183,27 @@ export const createPopupFilmDetails = (card) => {
   </form>
 </section>`;
 };
+
+export class PopupFilmDetailsView {
+  #element = null;
+  #card = null;
+
+  constructor(count) {
+    this.#card = count;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupFilmDetails(this.#card);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
