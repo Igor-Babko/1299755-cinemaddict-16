@@ -174,7 +174,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RenderPosition": () => (/* binding */ RenderPosition),
 /* harmony export */   "renderTemplate": () => (/* binding */ renderTemplate),
-/* harmony export */   "renderElement": () => (/* binding */ renderElement),
+/* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "createElement": () => (/* binding */ createElement)
 /* harmony export */ });
 const RenderPosition = {
@@ -186,7 +186,7 @@ const RenderPosition = {
 const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
-const renderElement = (container, element, place) => {
+const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.BEFOREBEGIN:
       container.before(element);
@@ -320,8 +320,6 @@ function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { 
 const createFilmsWrapper = () => `<section class="films">
 <section class="films-list">
   <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-
-  <div class="films-list__container"></div>
   </section>
   </section>`;
 
@@ -345,6 +343,91 @@ class FilmsWrapperView {
 
   get template() {
     return createFilmsWrapper();
+  }
+
+  removeElement() {
+    _classPrivateFieldSet(this, _element, null);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/view/filter-template-view.js":
+/*!******************************************!*\
+  !*** ./src/view/filter-template-view.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CreateFilterTemplateView": () => (/* binding */ CreateFilterTemplateView)
+/* harmony export */ });
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+
+
+const createFilterItemTemplate = filter => {
+  const {
+    name,
+    count
+  } = filter;
+  return `<a href="#isWachList" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`;
+};
+
+const createFilterTemplate = filterItems => {
+  const filterItemsTemplate = filterItems.map((filter, index) => createFilterItemTemplate(filter, index === 0)).join('');
+  return `<nav class="main-navigation">
+  <div class="main-navigation__items">
+    <a href="#all" class="main-navigation__item">All movies</a>
+    ${filterItemsTemplate};
+  </div>
+  <a href="#stats" class="main-navigation__additional main-navigation__additional--active">Stats</a>
+</nav>`;
+};
+
+var _element = /*#__PURE__*/new WeakMap();
+
+var _filter = /*#__PURE__*/new WeakMap();
+
+class CreateFilterTemplateView {
+  constructor(filter) {
+    _classPrivateFieldInitSpec(this, _element, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldInitSpec(this, _filter, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldSet(this, _filter, filter);
+  }
+
+  get element() {
+    if (!_classPrivateFieldGet(this, _element)) {
+      _classPrivateFieldSet(this, _element, (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.template));
+    }
+
+    return _classPrivateFieldGet(this, _element);
+  }
+
+  get template() {
+    return createFilterTemplate(_classPrivateFieldGet(this, _filter));
   }
 
   removeElement() {
@@ -382,14 +465,9 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
-const showFooterStatistic = moviesCount => {
-  const {
-    movies
-  } = moviesCount;
-  return `<section class="footer__statistics">
-<p>${movies} movies inside</p>
+const showFooterStatistic = moviesCount => `<section class="footer__statistics">
+<p>${moviesCount.length} movies inside</p>
 </section>`;
-};
 
 var _element = /*#__PURE__*/new WeakMap();
 
@@ -438,8 +516,25 @@ class FooterStatisticView {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createPopupFilmDetails": () => (/* binding */ createPopupFilmDetails)
+/* harmony export */   "PopupFilmDetailsView": () => (/* binding */ PopupFilmDetailsView)
 /* harmony export */ });
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+
+
 const createPopupFilmDetails = card => {
   const {
     name,
@@ -621,6 +716,43 @@ const createPopupFilmDetails = card => {
 </section>`;
 };
 
+var _element = /*#__PURE__*/new WeakMap();
+
+var _card = /*#__PURE__*/new WeakMap();
+
+class PopupFilmDetailsView {
+  constructor(count) {
+    _classPrivateFieldInitSpec(this, _element, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldInitSpec(this, _card, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldSet(this, _card, count);
+  }
+
+  get element() {
+    if (!_classPrivateFieldGet(this, _element)) {
+      _classPrivateFieldSet(this, _element, (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.template));
+    }
+
+    return _classPrivateFieldGet(this, _element);
+  }
+
+  get template() {
+    return createPopupFilmDetails(_classPrivateFieldGet(this, _card));
+  }
+
+  removeElement() {
+    _classPrivateFieldSet(this, _element, null);
+  }
+
+}
+
 /***/ }),
 
 /***/ "./src/view/menu-view.js":
@@ -631,36 +763,25 @@ const createPopupFilmDetails = card => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sortFilms": () => (/* binding */ sortFilms),
-/* harmony export */   "createFilterTemplate": () => (/* binding */ createFilterTemplate),
-/* harmony export */   "showStatistic": () => (/* binding */ showStatistic),
-/* harmony export */   "createFilmsWrapper": () => (/* binding */ createFilmsWrapper),
-/* harmony export */   "showFooterStatistic": () => (/* binding */ showFooterStatistic)
+/* harmony export */   "ShowStatisticView": () => (/* binding */ ShowStatisticView)
 /* harmony export */ });
-const sortFilms = () => `<ul class="sort">
-  <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-  <li><a href="#" class="sort__button">Sort by date</a></li>
-  <li><a href="#" class="sort__button">Sort by rating</a></li>
-</ul>`;
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
 
-const createFilterItemTemplate = filter => {
-  const {
-    name,
-    count
-  } = filter;
-  return `<a href="#isWachList" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`;
-};
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
-const createFilterTemplate = filterItems => {
-  const filterItemsTemplate = filterItems.map((filter, index) => createFilterItemTemplate(filter, index === 0)).join('');
-  return `<nav class="main-navigation">
-  <div class="main-navigation__items">
-    <a href="#all" class="main-navigation__item">All movies</a>
-    ${filterItemsTemplate};
-  </div>
-  <a href="#stats" class="main-navigation__additional main-navigation__additional--active">Stats</a>
-</nav>`;
-};
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+
+
 const showStatistic = filter => {
   const {
     watchedFilms,
@@ -713,20 +834,43 @@ const showStatistic = filter => {
 
 </section>`;
 };
-const createFilmsWrapper = () => `<section class="films">
-<section class="films-list">
-  <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
-  <div class="films-list__container"></div>
-  <button class="films-list__show-more">Show more</button>
-  </section>
-  </section>`;
-const showFooterStatistic = () => {
-  const moviesCount = 20;
-  return `<section class="footer__statistics">
-<p>${moviesCount} movies inside</p>
-</section>`;
-};
+var _element = /*#__PURE__*/new WeakMap();
+
+var _statistic = /*#__PURE__*/new WeakMap();
+
+class ShowStatisticView {
+  constructor(statistic) {
+    _classPrivateFieldInitSpec(this, _element, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldInitSpec(this, _statistic, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldSet(this, _statistic, statistic);
+  }
+
+  get element() {
+    if (!_classPrivateFieldGet(this, _element)) {
+      _classPrivateFieldSet(this, _element, (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.template));
+    }
+
+    return _classPrivateFieldGet(this, _element);
+  }
+
+  get template() {
+    return showStatistic(_classPrivateFieldGet(this, _statistic));
+  }
+
+  removeElement() {
+    _classPrivateFieldSet(this, _element, null);
+  }
+
+}
 
 /***/ }),
 
@@ -801,8 +945,25 @@ class MostCommentedExtraWrapperView {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createMovieCard": () => (/* binding */ createMovieCard)
+/* harmony export */   "СreateMovieCardView": () => (/* binding */ СreateMovieCardView)
 /* harmony export */ });
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+
+
 const createMovieCard = card => {
   const {
     name,
@@ -834,6 +995,43 @@ const createMovieCard = card => {
 </article>`;
 };
 
+var _element = /*#__PURE__*/new WeakMap();
+
+var _card = /*#__PURE__*/new WeakMap();
+
+class СreateMovieCardView {
+  constructor(card) {
+    _classPrivateFieldInitSpec(this, _element, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldInitSpec(this, _card, {
+      writable: true,
+      value: null
+    });
+
+    _classPrivateFieldSet(this, _card, card);
+  }
+
+  get element() {
+    if (!_classPrivateFieldGet(this, _element)) {
+      _classPrivateFieldSet(this, _element, (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.template));
+    }
+
+    return _classPrivateFieldGet(this, _element);
+  }
+
+  get template() {
+    return createMovieCard(_classPrivateFieldGet(this, _card));
+  }
+
+  removeElement() {
+    _classPrivateFieldSet(this, _element, null);
+  }
+
+}
+
 /***/ }),
 
 /***/ "./src/view/rank-view.js":
@@ -844,13 +1042,58 @@ const createMovieCard = card => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "showUserRank": () => (/* binding */ showUserRank)
+/* harmony export */   "ShowUserRankView": () => (/* binding */ ShowUserRankView)
 /* harmony export */ });
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+
+
 const showUserRank = () => `<section class="header__profile profile">
   <p class="profile__rating">Movie Buff</p>
   <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
 </section>
 </p>`;
+
+var _element = /*#__PURE__*/new WeakMap();
+
+class ShowUserRankView {
+  constructor() {
+    _classPrivateFieldInitSpec(this, _element, {
+      writable: true,
+      value: null
+    });
+  }
+
+  get element() {
+    if (!_classPrivateFieldGet(this, _element)) {
+      _classPrivateFieldSet(this, _element, (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.template));
+    }
+
+    return _classPrivateFieldGet(this, _element);
+  }
+
+  get template() {
+    return showUserRank();
+  }
+
+  removeElement() {
+    _classPrivateFieldSet(this, _element, null);
+  }
+
+}
 
 /***/ }),
 
@@ -1117,6 +1360,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_most_commented_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./view/most-commented-extra-wrapper.js */ "./src/view/most-commented-extra-wrapper.js");
 /* harmony import */ var _view_show_more_button_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./view/show-more-button.js */ "./src/view/show-more-button.js");
 /* harmony import */ var _src_view_films_list_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../src/view/films-list.js */ "./src/view/films-list.js");
+/* harmony import */ var _view_filter_template_view_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./view/filter-template-view.js */ "./src/view/filter-template-view.js");
+
 
 
 
@@ -1146,38 +1391,48 @@ for (let i = 0; i < mockCount; i++) {
 }
 
 const filters = (0,_mock_filter_js__WEBPACK_IMPORTED_MODULE_6__.generateFilter)(mocks);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(siteHeaderElement, (0,_view_rank_view_js__WEBPACK_IMPORTED_MODULE_4__.showUserRank)(), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(siteMainElement, (0,_view_menu_view_js__WEBPACK_IMPORTED_MODULE_2__.createFilterTemplate)(filters), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.AFTERBEGIN);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(siteMainElement, new _view_sortFilms_js__WEBPACK_IMPORTED_MODULE_8__.SortFilmsView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteHeaderElement, new _view_rank_view_js__WEBPACK_IMPORTED_MODULE_4__.ShowUserRankView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteMainElement, new _view_filter_template_view_js__WEBPACK_IMPORTED_MODULE_14__.CreateFilterTemplateView(filters).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.AFTERBEGIN);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteMainElement, new _view_sortFilms_js__WEBPACK_IMPORTED_MODULE_8__.SortFilmsView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 const filmsWrapperComponent = new _view_films_wrapper_js__WEBPACK_IMPORTED_MODULE_9__.FilmsWrapperView();
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(siteMainElement, filmsWrapperComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteMainElement, filmsWrapperComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 const filmsWrapper = siteMainElement.querySelector('.films');
 const filmsContainer = filmsWrapper.querySelector('.films-list');
+
+const renderCard = (filmListElement, card) => {
+  const filmComponent = new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](card); // const filmEditComponent = new FilmEditView(filmListElement);
+  // filmComponent.element.querySelector('.film-card').addEventListener('click', () => {
+  //   render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
+  // });
+
+  (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmListElement, filmComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+};
+
 const filmsListComponent = new _src_view_films_list_js__WEBPACK_IMPORTED_MODULE_13__.FilmsListView();
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(filmsContainer, filmsListComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(filmsContainer, new _view_show_more_button_js__WEBPACK_IMPORTED_MODULE_12__.ShowMoreButtonView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.AFTEREND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(filmsWrapper, new _view_top_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_0__.TopExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(filmsWrapper, new _view_most_commented_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_11__.MostCommentedExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsContainer, filmsListComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsContainer, new _view_show_more_button_js__WEBPACK_IMPORTED_MODULE_12__.ShowMoreButtonView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.AFTEREND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsWrapper, new _view_top_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_0__.TopExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsWrapper, new _view_most_commented_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_11__.MostCommentedExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 
 for (let i = 0; i < cardCount; i++) {
-  (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(filmsListComponent.element, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[i]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+  renderCard(filmsListComponent.element, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[i]).element);
 }
 
 const extraTopWrapper = filmsWrapper.querySelector('.film-list__container_top');
 const extraWrapperMostCommented = filmsWrapper.querySelector('.film-list__container_most_commented');
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(extraTopWrapper, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[0]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(extraTopWrapper, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[1]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(extraWrapperMostCommented, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[2]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(extraWrapperMostCommented, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[3]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderElement)(siteFooterElement, new _view_footer_statistic_js__WEBPACK_IMPORTED_MODULE_10__.FooterStatisticView(mocks.length).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND); //renderTemplate(siteFooterElement, createPopupFilmDetails(mocks[0]), RenderPosition.AFTEREND);
-//renderTemplate(siteFooterElement, showStatistic(), RenderPosition.AFTEREND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(extraTopWrapper, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[0]).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(extraTopWrapper, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[1]).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(extraWrapperMostCommented, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[2]).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(extraWrapperMostCommented, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[3]).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteFooterElement, new _view_footer_statistic_js__WEBPACK_IMPORTED_MODULE_10__.FooterStatisticView(mocks).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND); //render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
+//render(siteFooterElement, new ShowStatisticView(mocks).element, RenderPosition.AFTEREND);
 
 const filmsLoader = document.querySelector('.films-list__show-more');
 
 const addFiveFilmsHandler = () => {
   for (let i = openedFilms; i < mocks.length; i++) {
     openedFilms += 1;
-    (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.renderTemplate)(filmsListComponent.element, (0,_view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__.createMovieCard)(mocks[i]), _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+    (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsListComponent.element, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[i]).element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 
     if (openedFilms === mocks.length) {
       filmsLoader.style.display = 'none';

@@ -6,17 +6,17 @@ import {
   PopupFilmDetailsView
 } from './view/information-popup-view.js';
 import {
-  showStatistic,
+  ShowStatisticView,
   sortFilms,
   createFilmsWrapper,
-  showFooterStatistic,
+  ShowFooterStatistic,
   createFilterTemplate
 } from './view/menu-view.js';
 import {
-  createMovieCard,
+  СreateMovieCardView,
 } from './view/movie-card-view.js';
 import {
-  showUserRank
+  ShowUserRankView
 } from './view/rank-view.js';
 import {
   createCard
@@ -25,7 +25,7 @@ import {
   generateFilter
 } from './mock/filter.js';
 
-import {renderElement, renderTemplate, RenderPosition } from './render.js';
+import {render, renderTemplate, RenderPosition } from './render.js';
 import {SortFilmsView} from './view/sortFilms.js';
 import {FilmsWrapperView} from './view/films-wrapper.js';
 import {FooterStatisticView} from './view/footer-statistic.js';
@@ -33,6 +33,7 @@ import {MostCommentedExtraWrapperView} from './view/most-commented-extra-wrapper
 import {TopExtraWrapperView} from './view/top-extra-wrapper.js';
 import {ShowMoreButtonView} from './view/show-more-button.js';
 import {FilmsListView} from '/src/view/films-list.js';
+import {CreateFilterTemplateView} from './view/filter-template-view.js';
 
 
 const fiveFilms = 5;
@@ -41,7 +42,7 @@ const mocks = [];
 const cardCount = 5;
 let openedFilms = 5;
 
-
+const body = document.querySelector('body');
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer');
@@ -52,46 +53,64 @@ for (let i = 0; i < mockCount; i++) {
 const filters = generateFilter(mocks);
 
 
-renderTemplate(siteHeaderElement, showUserRank(), RenderPosition.BEFOREEND);
-renderTemplate(siteMainElement, createFilterTemplate(filters), RenderPosition.AFTERBEGIN);
-renderElement(siteMainElement, new SortFilmsView().element, RenderPosition.BEFOREEND);
+render(siteHeaderElement, new ShowUserRankView().element, RenderPosition.BEFOREEND);
+render(siteMainElement, new CreateFilterTemplateView(filters).element, RenderPosition.AFTERBEGIN);
+render(siteMainElement, new SortFilmsView().element, RenderPosition.BEFOREEND);
 const filmsWrapperComponent= new FilmsWrapperView();
-renderElement(siteMainElement, filmsWrapperComponent.element, RenderPosition.BEFOREEND);
+render(siteMainElement, filmsWrapperComponent.element, RenderPosition.BEFOREEND);
 
 const filmsWrapper = siteMainElement.querySelector('.films');
 const filmsContainer = filmsWrapper.querySelector('.films-list');
 
 
 const filmsListComponent = new FilmsListView();
-renderElement(filmsContainer, filmsListComponent.element, RenderPosition.BEFOREEND);
+render(filmsContainer, filmsListComponent.element, RenderPosition.BEFOREEND);
 
-renderElement(filmsContainer, new ShowMoreButtonView().element, RenderPosition.AFTEREND);
-renderElement(filmsWrapper, new TopExtraWrapperView().element, RenderPosition.BEFOREEND);
-renderElement(filmsWrapper, new MostCommentedExtraWrapperView().element, RenderPosition.BEFOREEND);
+render(filmsContainer, new ShowMoreButtonView().element, RenderPosition.AFTEREND);
+render(filmsWrapper, new TopExtraWrapperView().element, RenderPosition.BEFOREEND);
+render(filmsWrapper, new MostCommentedExtraWrapperView().element, RenderPosition.BEFOREEND);
 
+const renderCard = (filmListElement, card) => {
+  const filmComponent = new СreateMovieCardView(card);
+  const popupComponent = new PopupFilmDetailsView(card);
+  // const showPopup = new PopupFilmDetailsView(mocks[0]).element;
+  // const filmEditComponent = new FilmEditView(filmListElement);
+  // const showPopup = new PopupFilmDetailsView(mocks[0]).element;
+
+  filmComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+    // render(siteFooterElement, popupComponent.element, RenderPosition.AFTEREND);
+    body.appendChild(popupComponent.element);
+  });
+
+  popupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {body.removeChild(popupComponent.element);});
+
+  // console.log(filmComponent.element.innerHTML);
+
+  render(filmListElement, filmComponent.element, RenderPosition.BEFOREEND);
+};
 
 for (let i = 0; i < cardCount; i++) {
-  renderTemplate(filmsListComponent.element, createMovieCard(mocks[i]), RenderPosition.BEFOREEND);
+  renderCard(filmsListComponent.element, mocks[i]);
 }
 
 
 const extraTopWrapper = filmsWrapper.querySelector('.film-list__container_top');
 const extraWrapperMostCommented = filmsWrapper.querySelector('.film-list__container_most_commented');
 
-
-renderTemplate(extraTopWrapper, createMovieCard(mocks[0]), RenderPosition.BEFOREEND);
-renderTemplate(extraTopWrapper, createMovieCard(mocks[1]), RenderPosition.BEFOREEND);
-renderTemplate(extraWrapperMostCommented, createMovieCard(mocks[2]), RenderPosition.BEFOREEND);
-renderTemplate(extraWrapperMostCommented, createMovieCard(mocks[3]), RenderPosition.BEFOREEND);
-renderElement(siteFooterElement, new FooterStatisticView(mocks).element, RenderPosition.BEFOREEND);
-//renderElement(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
-//renderTemplate(siteFooterElement, showStatistic(), RenderPosition.AFTEREND);
+render(extraTopWrapper,new СreateMovieCardView(mocks[0]).element, RenderPosition.BEFOREEND);
+render(extraTopWrapper, new СreateMovieCardView(mocks[1]).element, RenderPosition.BEFOREEND);
+render(extraWrapperMostCommented, new СreateMovieCardView(mocks[2]).element, RenderPosition.BEFOREEND);
+render(extraWrapperMostCommented, new СreateMovieCardView(mocks[3]).element, RenderPosition.BEFOREEND);
+render(siteFooterElement, new FooterStatisticView(mocks).element, RenderPosition.BEFOREEND);
+//render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
+//render(siteFooterElement, new ShowStatisticView(mocks).element, RenderPosition.AFTEREND);
 
 const filmsLoader = document.querySelector('.films-list__show-more');
+
 const addFiveFilmsHandler = () => {
   for (let i = openedFilms; i < mocks.length; i++) {
     openedFilms += 1;
-    renderTemplate(filmsListComponent.element, createMovieCard(mocks[i]), RenderPosition.BEFOREEND);
+    render(filmsListComponent.element, new СreateMovieCardView(mocks[i]).element, RenderPosition.BEFOREEND);
     if (openedFilms === mocks.length) {
       filmsLoader.style.display = 'none';
       filmsLoader.removeEventListener('click', addFiveFilmsHandler);

@@ -1,4 +1,8 @@
-export const createMovieCard = (card) => {
+import {
+  createElement
+} from '../render.js';
+
+const createMovieCard = (card) => {
   const {
     name,
     poster,
@@ -30,3 +34,27 @@ export const createMovieCard = (card) => {
   </div>
 </article>`;
 };
+
+export class СreateMovieCardView {
+  #element = null;
+  #card = null;
+
+  constructor(card) {
+    this.#card = card;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  get template() {
+    return createMovieCard(this.#card);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
