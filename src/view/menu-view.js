@@ -1,34 +1,8 @@
-export const sortFilms = () => (
-  `<ul class="sort">
-  <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-  <li><a href="#" class="sort__button">Sort by date</a></li>
-  <li><a href="#" class="sort__button">Sort by rating</a></li>
-</ul>`
-);
+import {
+  createElement
+} from '../render.js';
 
-const createFilterItemTemplate = (filter) => {
-  const {
-    name,
-    count
-  } = filter;
-
-  return `<a href="#isWachList" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`;
-};
-
-export const createFilterTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems
-    .map((filter, index) => createFilterItemTemplate(filter, index === 0))
-    .join('');
-  return `<nav class="main-navigation">
-  <div class="main-navigation__items">
-    <a href="#all" class="main-navigation__item">All movies</a>
-    ${filterItemsTemplate};
-  </div>
-  <a href="#stats" class="main-navigation__additional main-navigation__additional--active">Stats</a>
-</nav>`;
-};
-
-export const showStatistic = (filter) => {
+const showStatistic = (filter) => {
   const {
     watchedFilms,
     hours,
@@ -82,20 +56,26 @@ export const showStatistic = (filter) => {
 
 </section>`;
 };
+export class ShowStatisticView {
+  #element = null;
+  #statistic = null;
 
-export const createFilmsWrapper = () => (
-  `<section class="films">
-<section class="films-list">
-  <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+  constructor(statistic) {
+    this.#statistic = statistic;
+  }
 
-  <div class="films-list__container"></div>
-  <button class="films-list__show-more">Show more</button>
-  </section>
-  </section>`
-);
-export const showFooterStatistic = () => {
-  const moviesCount = 20;
-  return `<section class="footer__statistics">
-<p>${moviesCount} movies inside</p>
-</section>`;
-};
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  get template() {
+    return showStatistic(this.#statistic);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
