@@ -75,7 +75,7 @@ for (let i = 0; i < mockCount; i++) {
 }
 const filters = generateFilter(mocks);
 
-//mocks.length = 0;
+ mocks.length = 0;
 
 render(siteHeaderElement, new ShowUserRankView().element, RenderPosition.BEFOREEND);
 render(siteMainElement, new CreateFilterTemplateView(filters).element, RenderPosition.AFTERBEGIN);
@@ -87,7 +87,7 @@ if (mocks.length === 0) {
   render(siteMainElement, noFilms.element, RenderPosition.BEFOREEND);
 } else {
   render(siteMainElement, filmsWrapperComponent.element, RenderPosition.BEFOREEND);
-}
+
 
 
 const filmsWrapper = siteMainElement.querySelector('.films');
@@ -147,8 +147,6 @@ render(extraTopWrapper, new СreateMovieCardView(mocks[1]).element, RenderPositi
 render(extraWrapperMostCommented, new СreateMovieCardView(mocks[2]).element, RenderPosition.BEFOREEND);
 render(extraWrapperMostCommented, new СreateMovieCardView(mocks[3]).element, RenderPosition.BEFOREEND);
 render(siteFooterElement, new FooterStatisticView(mocks).element, RenderPosition.BEFOREEND);
-//render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
-//render(siteFooterElement, new ShowStatisticView(mocks).element, RenderPosition.AFTEREND);
 
 const filmsLoader = document.querySelector('.films-list__show-more');
 
@@ -168,3 +166,12 @@ const addFiveFilmsHandler = () => {
 
 
 filmsLoader.addEventListener('click', addFiveFilmsHandler);
+}
+
+
+
+
+//render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
+//render(siteFooterElement, new ShowStatisticView(mocks).element, RenderPosition.AFTEREND);
+
+
