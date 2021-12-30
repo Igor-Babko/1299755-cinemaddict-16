@@ -1382,6 +1382,7 @@ const mockCount = 20;
 const mocks = [];
 const cardCount = 5;
 let openedFilms = 5;
+const body = document.querySelector('body');
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer');
@@ -1398,24 +1399,32 @@ const filmsWrapperComponent = new _view_films_wrapper_js__WEBPACK_IMPORTED_MODUL
 (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(siteMainElement, filmsWrapperComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 const filmsWrapper = siteMainElement.querySelector('.films');
 const filmsContainer = filmsWrapper.querySelector('.films-list');
-
-const renderCard = (filmListElement, card) => {
-  const filmComponent = new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](card); // const filmEditComponent = new FilmEditView(filmListElement);
-  // filmComponent.element.querySelector('.film-card').addEventListener('click', () => {
-  //   render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);
-  // });
-
-  (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmListElement, filmComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
-};
-
 const filmsListComponent = new _src_view_films_list_js__WEBPACK_IMPORTED_MODULE_13__.FilmsListView();
 (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsContainer, filmsListComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsContainer, new _view_show_more_button_js__WEBPACK_IMPORTED_MODULE_12__.ShowMoreButtonView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.AFTEREND);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsWrapper, new _view_top_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_0__.TopExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmsWrapper, new _view_most_commented_extra_wrapper_js__WEBPACK_IMPORTED_MODULE_11__.MostCommentedExtraWrapperView().element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
 
+const renderCard = (filmListElement, card) => {
+  const filmComponent = new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](card);
+  const popupComponent = new _view_information_popup_view_js__WEBPACK_IMPORTED_MODULE_1__.PopupFilmDetailsView(card);
+  filmComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+    body.appendChild(popupComponent.element);
+  });
+  popupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+    body.removeChild(popupComponent.element);
+  });
+  popupComponent.element.querySelector('.film-details').addEventListener('keydown', evt => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      body.removeChild(popupComponent.element);
+    }
+  });
+  (0,_render_js__WEBPACK_IMPORTED_MODULE_7__.render)(filmListElement, filmComponent.element, _render_js__WEBPACK_IMPORTED_MODULE_7__.RenderPosition.BEFOREEND);
+};
+
 for (let i = 0; i < cardCount; i++) {
-  renderCard(filmsListComponent.element, new _view_movie_card_view_js__WEBPACK_IMPORTED_MODULE_3__["СreateMovieCardView"](mocks[i]).element);
+  renderCard(filmsListComponent.element, mocks[i]);
 }
 
 const extraTopWrapper = filmsWrapper.querySelector('.film-list__container_top');
