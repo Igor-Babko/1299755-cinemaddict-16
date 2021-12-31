@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {AbstractView} from '../view/abstract-view.js';
 
 const showTopExtraWrapper = () => (
   `<section class="films-list films-list--extra">
@@ -8,21 +8,10 @@ const showTopExtraWrapper = () => (
 </section>
 `);
 
-export class TopExtraWrapperView {
-  #element = null;
-
-  get element (){
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+export class TopExtraWrapperView extends AbstractView {
 
   get template () {
     return showTopExtraWrapper();
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }

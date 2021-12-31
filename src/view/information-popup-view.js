@@ -1,6 +1,6 @@
 import {
-  createElement
-} from '../render.js';
+  AbstractView
+} from '../view/abstract-view.js';
 
 const createPopupFilmDetails = (card) => {
   const {
@@ -184,26 +184,18 @@ const createPopupFilmDetails = (card) => {
 </section>`;
 };
 
-export class PopupFilmDetailsView {
-  #element = null;
+export class PopupFilmDetailsView extends AbstractView {
+
   #card = null;
 
   constructor(count) {
+    super();
     this.#card = count;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
 
   get template() {
     return createPopupFilmDetails(this.#card);
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }

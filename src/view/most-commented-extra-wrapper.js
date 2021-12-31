@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {AbstractView} from '../view/abstract-view.js';
 
 const showMostCommentedExtraWrapper = () => (
   `<section class="films-list films-list--extra">
@@ -8,21 +8,10 @@ const showMostCommentedExtraWrapper = () => (
 </section>`
 );
 
-export class MostCommentedExtraWrapperView {
-  #element = null;
-
-  get element (){
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+export class MostCommentedExtraWrapperView extends AbstractView  {
 
   get template () {
     return showMostCommentedExtraWrapper();
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }

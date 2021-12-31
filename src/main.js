@@ -24,7 +24,7 @@ import {
 import {
   generateFilter
 } from './mock/filter.js';
-
+import {AbstractView} from './view/abstract-view.js';
 import {
   render,
   renderTemplate,
@@ -85,8 +85,6 @@ if (mocks.length === 0) {
   render(siteMainElement, noFilms.element, RenderPosition.BEFOREEND);
 } else {
   render(siteMainElement, filmsWrapperComponent.element, RenderPosition.BEFOREEND);
-
-
 
   const filmsWrapper = siteMainElement.querySelector('.films');
   const filmsContainer = filmsWrapper.querySelector('.films-list');
@@ -165,8 +163,6 @@ if (mocks.length === 0) {
 
   filmsLoader.addEventListener('click', addFiveFilmsHandler);
 }
-
-
 
 
 //render(siteFooterElement, new PopupFilmDetailsView(mocks[0]).element, RenderPosition.AFTEREND);

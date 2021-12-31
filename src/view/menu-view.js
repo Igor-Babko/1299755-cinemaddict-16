@@ -1,6 +1,4 @@
-import {
-  createElement
-} from '../render.js';
+import {AbstractView} from '../view/abstract-view.js';
 
 const showStatistic = (filter) => {
   const {
@@ -56,26 +54,17 @@ const showStatistic = (filter) => {
 
 </section>`;
 };
-export class ShowStatisticView {
-  #element = null;
+export class ShowStatisticView extends AbstractView  {
+
   #statistic = null;
 
   constructor(statistic) {
+    super();
     this.#statistic = statistic;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
   }
 
   get template() {
     return showStatistic(this.#statistic);
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }
