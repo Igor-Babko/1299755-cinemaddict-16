@@ -35,4 +35,14 @@ export class CreateFilterTemplateView extends AbstractView  {
     return createFilterTemplate(this.#filter);
   }
 
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.main-navigation__item').addEventListener('click', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
 }

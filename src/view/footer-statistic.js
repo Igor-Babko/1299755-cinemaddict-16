@@ -17,4 +17,14 @@ export class FooterStatisticView extends AbstractView {
     return showFooterStatistic(this.#count);
   }
 
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.footer__statistics').addEventListener('click', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
 }

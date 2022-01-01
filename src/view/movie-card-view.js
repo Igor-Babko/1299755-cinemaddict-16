@@ -1,4 +1,6 @@
-import {AbstractView} from '../view/abstract-view.js';
+import {
+  AbstractView
+} from '../view/abstract-view.js';
 
 const createMovieCard = (card) => {
   const {
@@ -33,7 +35,7 @@ const createMovieCard = (card) => {
 </article>`;
 };
 
-export class СreateMovieCardView extends AbstractView  {
+export class СreateMovieCardView extends AbstractView {
   #card = null;
 
   constructor(card) {
@@ -43,5 +45,15 @@ export class СreateMovieCardView extends AbstractView  {
 
   get template() {
     return createMovieCard(this.#card);
+  }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-card__link').addEventListener('click', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
   }
 }

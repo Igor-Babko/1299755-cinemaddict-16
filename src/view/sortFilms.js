@@ -14,5 +14,16 @@ export class SortFilmsView extends AbstractView  {
     return createSortFilmsTemplate();
   }
 
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.sort__button').addEventListener('click', this.#clickHandler);
+
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
 }
 

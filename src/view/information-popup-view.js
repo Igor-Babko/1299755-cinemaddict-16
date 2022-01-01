@@ -198,4 +198,25 @@ export class PopupFilmDetailsView extends AbstractView {
     return createPopupFilmDetails(this.#card);
   }
 
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#clickHandler);
+  }
+
+  setCloseClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').removeEventListener('click', this.#clickHandler);
+  }
+
+  setEscButtonHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').removeEventListener('keydown', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+
 }
