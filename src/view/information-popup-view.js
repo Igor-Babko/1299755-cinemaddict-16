@@ -1,6 +1,6 @@
 import {
-  createElement
-} from '../render.js';
+  AbstractView
+} from '../view/abstract-view.js';
 
 const createPopupFilmDetails = (card) => {
   const {
@@ -184,26 +184,39 @@ const createPopupFilmDetails = (card) => {
 </section>`;
 };
 
-export class PopupFilmDetailsView {
-  #element = null;
+export class PopupFilmDetailsView extends AbstractView {
+
   #card = null;
 
   constructor(count) {
+    super();
     this.#card = count;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
 
   get template() {
     return createPopupFilmDetails(this.#card);
   }
 
-  removeElement() {
-    this.#element = null;
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#clickHandler);
   }
+
+  setCloseClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').removeEventListener('click', this.#clickHandler);
+  }
+
+  setEscButtonHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').removeEventListener('keydown', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+
 }

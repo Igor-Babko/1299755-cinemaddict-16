@@ -1,12 +1,12 @@
-import {createElement} from '../render.js';
+import {AbstractView} from '../view/abstract-view.js';
 
 
-const phrasesEmptyFilters = {
-  all: 'There are no movies in our database',
-  watchlist: 'There are no movies to watch now',
-  history: 'There are no watched movies now',
-  favorites:'There are no favorite movies now'
-};
+// const phrasesEmptyFilters = {
+//   all: 'There are no movies in our database',
+//   watchlist: 'There are no movies to watch now',
+//   history: 'There are no watched movies now',
+//   favorites:'There are no favorite movies now'
+// };
 
 const createNoFilmsTemplate = () => (
   `<section class="films">
@@ -16,22 +16,9 @@ const createNoFilmsTemplate = () => (
   </section>`
 );
 
-export class NoFilmsView {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
+export class NoFilmsView extends AbstractView  {
 
   get template() {
     return createNoFilmsTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

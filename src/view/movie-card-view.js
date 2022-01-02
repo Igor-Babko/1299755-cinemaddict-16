@@ -1,6 +1,6 @@
 import {
-  createElement
-} from '../render.js';
+  AbstractView
+} from '../view/abstract-view.js';
 
 const createMovieCard = (card) => {
   const {
@@ -35,26 +35,25 @@ const createMovieCard = (card) => {
 </article>`;
 };
 
-export class СreateMovieCardView {
-  #element = null;
+export class СreateMovieCardView extends AbstractView {
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
   }
 
   get template() {
     return createMovieCard(this.#card);
   }
 
-  removeElement() {
-    this.#element = null;
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-card__link').addEventListener('click', this.#clickHandler);
+  }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
   }
 }

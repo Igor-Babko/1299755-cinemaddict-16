@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {AbstractView} from '../view/abstract-view.js';
 
 const createSortFilmsTemplate = () => (
   `<ul class="sort">
@@ -8,22 +8,22 @@ const createSortFilmsTemplate = () => (
 </ul>`
 );
 
-export class SortFilmsView {
-  #element = null;
-
-  get element (){
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+export class SortFilmsView extends AbstractView  {
 
   get template () {
     return createSortFilmsTemplate();
   }
 
-  removeElement() {
-    this.#element = null;
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.sort__button').addEventListener('click', this.#clickHandler);
+
   }
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
 }
 
