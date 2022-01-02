@@ -108,24 +108,25 @@ if (mocks.length === 0) {
       body.appendChild(popupComponent.element);
       document.addEventListener('keydown', keyDownEscHandler);
       popupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', closePopupHandler);
+
+
+      function closePopupHandler() {
+        body.removeChild(popupComponent.element);
+        document.removeEventListener('keydown', keyDownEscHandler);
+        popupComponent.element.querySelector('.film-details__close-btn').removeEventListener('click', closePopupHandler);
+      }
+
+      function keyDownEscHandler(evt) {
+        if (evt.key === 'Escape') {
+          evt.preventDefault();
+          closePopupHandler();
+        }
+      }
     });
 
-    function closePopupHandler() {
-      body.removeChild(popupComponent.element);
-      document.removeEventListener('keydown', keyDownEscHandler);
-      popupComponent.element.querySelector('.film-details__close-btn').removeEventListener('click', closePopupHandler);
-    }
-
-    function keyDownEscHandler(evt) {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        closePopupHandler();
-      }
-    }
 
 
 
-    document.addEventListener('keydown', keyDownEscHandler);
 
 
     // filmComponent.element.querySelector('.film-card__link').addEventListener('click', filmCardClickHandler);
