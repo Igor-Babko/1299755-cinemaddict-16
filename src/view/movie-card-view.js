@@ -40,8 +40,14 @@ export class СreateMovieCardView extends AbstractView {
 
   constructor(card) {
     super();
+    console.log(card);
     this.#card = card;
   }
+
+  // render(card){ //врменно чтобы не передавать данные в контруктор, при создании презентера фильмв нужно все вернуть
+  //   this.#card = card;
+  //   return this.element;
+  // }
 
   get template() {
     return createMovieCard(this.#card);
