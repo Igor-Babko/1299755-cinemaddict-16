@@ -1,12 +1,15 @@
 import {AbstractView} from '../view/abstract-view.js';
 
-const createFilmsListWrapper = () => (
-  '<div class="films-list__container"></div>'
-
+const createFilmsWrapper = () => (
+  `<section class="films-list">
+  <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+  </section>`
 );
 
-export class FilmsListView extends AbstractView {
+export class FilmsListView extends AbstractView   {
+
   get template () {
-    return createFilmsListWrapper();
+    return createFilmsWrapper();
   }
+
 }
