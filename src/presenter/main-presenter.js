@@ -28,7 +28,7 @@ import { NoFilmsView } from "../view/no-films-view.js";
 import { FilmsListView } from "../view/films-list.js";
 import { MostCommentedExtraContainerView } from "../view/film-list-container-most-commented.js";
 import { TopFilmListContainerView } from "../view/film-list-container-top.js";
-import { MoviePresenter } from "./movie-presenter.js";
+import { MoviePresenter } from './movie-presenter.js';
 
 const fiveFilms = 5;
 const mockCount = 20;
@@ -43,6 +43,7 @@ const siteFooterElement = document.querySelector(".footer");
 
 export class MovieListPresenter {
   #moviesContainer = null;
+
   #mockCount = 20;
   #mocks = [];
   #filmCardPresenters = {};
@@ -75,13 +76,14 @@ export class MovieListPresenter {
     this.#renderShowMoreButtonComponent();
     this.#renderTopExtraWrapperComponent();
     this.#renderMostCommentedExtraWrapperComponent();
-    this.#renderAllCards();
+    // this.#renderAllCards();
+    this.#renderFiveFilms();
     this.#renderMostCommentedExtraContainerComponent();
     this.#renderTopFilmListContainerComponent();
     // this.#renderTopExtraFilmsComponent();
     // this.#renderMostCommentedExtraFilmsComponent();
     this.#renderFooterStatisticComponent();
-    // this.#renderFiveFilms();
+
   };
 
   #renderSortFilms = () => {
@@ -183,15 +185,19 @@ export class MovieListPresenter {
   //   render(filmListElement, filmComponent, RenderPosition.BEFOREEND);
   // };
 
-  #renderAllCards = () => {
-    for (let i = 0; i < this.#mockCount; i++) {
-      this.#renderFilmCard(this.#filmsListContainerComponent.element, this.#mocks[i]);
-      // this.#renderCard(
-      //   this.#filmsListContainerComponent.element,
-      //   this.#mocks[i]
-      // );
-    }
-  };
+  // #renderAllCards = () => {
+  //   for (let i = 0; i < this.#mockCount; i++) {
+  // this.#renderFilmCard(this.#filmsListContainerComponent.element, this.#mocks[i]);
+
+
+
+
+  //     // this.#renderCard(
+  //     //   this.#filmsListContainerComponent.element,
+  //     //   this.#mocks[i]
+  //     // );
+  //   }
+  // };
 
   #renderMostCommentedExtraContainerComponent = () => {
     render(
@@ -243,31 +249,30 @@ export class MovieListPresenter {
     );
   };
 
-  // #renderFiveFilms = () => {
-  //   const addFiveFilmsHandler = () => {
-  //     for (let i = openedFilms; i < this.#mocks.length; i++) {
-  //       openedFilms += 1;
-  //       render(
-  //         this.#filmsListContainerComponent.element,
-  //         this.#createMovieCardComponent.render(this.#mocks[i]),
-  //         RenderPosition.BEFOREEND
-  //       );
-  //       if (openedFilms === this.#mocks.length) {
-  //         this.#showMoreButtonComponent.style.display = "none";
-  //         this.#showMoreButtonComponent.removeEventListener(
-  //           "click",
-  //           addFiveFilmsHandler
-  //         );
-  //       }
-  //       if ((i + 1) % fiveFilms === 0) {
-  //         break;
-  //       }
-  //     }
-  //   };
+  #renderFiveFilms = () => {
 
-  //   this.#showMoreButtonComponent.addEventListener(
-  //     "click",
-  //     addFiveFilmsHandler
-  //   );
-  // };
+    //Метод не работает если использовать функцию
+
+    // function addFiveFilmsHandler (){
+      for (let i = openedFilms; i < this.#mocks.length; i++) {
+        this.#renderFilmCard(this.#filmsListContainerComponent.element, this.#mocks[i]);
+
+
+        openedFilms += 1;
+        if (openedFilms === this.#mocks.length) {
+          this.#showMoreButtonComponent.style.display = 'none';
+          // this.#showMoreButtonComponent.removeEventListener('click', addFiveFilmsHandler);
+        }
+        if ((i + 1) % fiveFilms === 0) {
+          break;
+        }
+      }
+    // }
+
+    // this.#showMoreButtonComponent.addEventListener(
+    //   'click',
+    //   addFiveFilmsHandler
+    // );
+    // addFiveFilmsHandler();
+  };
 }
