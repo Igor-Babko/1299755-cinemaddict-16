@@ -23,9 +23,10 @@ import { MostCommentedExtraWrapperView } from "../view/most-commented-extra-wrap
 import { TopExtraWrapperView } from "../view/top-extra-wrapper.js";
 import { ShowMoreButtonView } from "../view/show-more-button.js";
 import { FilmsListContainertView } from "../view/films-list-container.js";
-import { CreateFilterTemplateView } from "../view/filter-template-view.js";
-import { NoFilmsView } from "../view/no-films-view.js";
-import { FilmsListView } from "../view/films-list.js";
+import { SiteMenu } from "../view/filter-template-view.js";
+import { Filter } from '../utils/filter';
+import { NoFilmsView } from '../view/no-films-view.js';
+import { FilmsListView } from '../view/films-list.js';
 import { MostCommentedExtraContainerView } from "../view/film-list-container-most-commented.js";
 import { TopFilmListContainerView } from "../view/film-list-container-top.js";
 import { MoviePresenter } from './movie-presenter.js';
@@ -33,7 +34,7 @@ import { MoviePresenter } from './movie-presenter.js';
 const fiveFilms = 5;
 const mockCount = 20;
 const cardCount = 5;
-let openedFilms = 5;
+let openedFilms = 0;
 // const mocks = [];
 
 const body = document.querySelector("body");
@@ -48,7 +49,7 @@ export class MovieListPresenter {
   #mocks = [];
   #filmCardPresenters = {};
   // #showUserRankComponent = new ShowUserRankView();
-  // #createFilterTemplateComponent = new CreateFilterTemplateView(filters);
+  // #createFilterTemplateComponent = new SiteMenu(filters);
   #sortFilmsComponent = new SortFilmsView();
   #filmsWrapperComponent = new FilmsWrapperView();
   #noFilmsComponent = new NoFilmsView();
@@ -62,6 +63,7 @@ export class MovieListPresenter {
   #FilmsListConponent = new FilmsListView();
   #MostCommentedExtraContainerComponent = new MostCommentedExtraContainerView();
   #TopFilmListContainerComponent = new TopFilmListContainerView();
+
 
   constructor(moviesContainer) {
     this.#moviesContainer = moviesContainer;
@@ -77,6 +79,7 @@ export class MovieListPresenter {
     this.#renderTopExtraWrapperComponent();
     this.#renderMostCommentedExtraWrapperComponent();
     // this.#renderAllCards();
+    this.#renderFiveFilmsHandler();
     this.#renderFiveFilms();
     this.#renderMostCommentedExtraContainerComponent();
     this.#renderTopFilmListContainerComponent();
@@ -249,24 +252,23 @@ export class MovieListPresenter {
     );
   };
 
-  #renderFiveFilms = () => {
+  #renderFiveFilmsHandler = () => {
 
-    //Метод не работает если использовать функцию
 
     // function addFiveFilmsHandler (){
-      for (let i = openedFilms; i < this.#mocks.length; i++) {
-        this.#renderFilmCard(this.#filmsListContainerComponent.element, this.#mocks[i]);
+    for (let i = openedFilms; i < this.#mocks.length; i++) {
+      this.#renderFilmCard(this.#filmsListContainerComponent.element, this.#mocks[i]);
 
 
-        openedFilms += 1;
-        if (openedFilms === this.#mocks.length) {
-          this.#showMoreButtonComponent.style.display = 'none';
-          // this.#showMoreButtonComponent.removeEventListener('click', addFiveFilmsHandler);
-        }
-        if ((i + 1) % fiveFilms === 0) {
-          break;
-        }
+      openedFilms += 1;
+      if (openedFilms === this.#mocks.length) {
+        this.#showMoreButtonComponent.style.display = 'none';
+        // this.#showMoreButtonComponent.removeEventListener('click', addFiveFilmsHandler);
       }
+      if ((i + 1) % fiveFilms === 0) {
+        break;
+      }
+    }
     // }
 
     // this.#showMoreButtonComponent.addEventListener(
@@ -275,4 +277,8 @@ export class MovieListPresenter {
     // );
     // addFiveFilmsHandler();
   };
+
+  #renderFiveFilms = () => {
+    this.#showMoreButtonComponent.setClickHandler(this.#renderFiveFilmsHandler);
+  }
 }

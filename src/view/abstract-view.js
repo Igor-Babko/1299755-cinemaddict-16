@@ -24,4 +24,12 @@ export class AbstractView {
   removeElement() {
     this.#element = null;
   }
+
+  show() {
+    this.#element.classList.remove('visually-hidden');
+  }
+
+  hide() {
+    this.#element.classList.add('visually-hidden');
+  }
 }

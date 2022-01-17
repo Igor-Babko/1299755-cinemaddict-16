@@ -1,5 +1,7 @@
 import {AbstractView} from '../view/abstract-view.js';
 
+const menuActiveClass = 'main-navigation__item--active';
+
 const createSortFilmsTemplate = () => (
   `<ul class="sort">
   <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
