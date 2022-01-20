@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { formatRuntime } from '../utils/film.js';
 import AbstractView from './abstract-view.js';
+
 const createFilmCardTemplate = (film) => {
   const {
     commentsId,
@@ -19,20 +20,25 @@ const createFilmCardTemplate = (film) => {
       isFavorite,
     },
   } = film;
+
   const year = dayjs(releaseDate).format('YYYY');
   const humanizedRuntime = formatRuntime(runtime);
   const genre = genres[0];
   const shortDescription = (description.length > 140) ? `${description.slice(0, 139)}...` : description;
   const commentCount = commentsId.length;
+
   const watchlistClassName = isWatchlist
     ? 'film-card__controls-item--add-to-watchlist film-card__controls-item--active'
     : 'film-card__controls-item--add-to-watchlist';
+
   const watchedClassName = isWatched
     ? 'film-card__controls-item--mark-as-watched film-card__controls-item--active'
     : 'film-card__controls-item--mark-as-watched';
+
   const favoriteClassName = isFavorite
     ? 'film-card__controls-item--favorite film-card__controls-item--active'
     : 'film-card__controls-item--favorite';
+
   return `<article class="film-card">
     <a class="film-card__link">
       <h3 class="film-card__title">${title}</h3>
@@ -53,8 +59,10 @@ const createFilmCardTemplate = (film) => {
     </div>
   </article>`;
 };
+
 export default class FilmCardView extends AbstractView {
   #film = null;
+
   constructor(film) {
     super();
     this.#film = film;
