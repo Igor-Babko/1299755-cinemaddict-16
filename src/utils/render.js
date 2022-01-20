@@ -10,6 +10,7 @@ export const renderPosition = {
 export const render = (container, element, place) => {
   const parent = (container instanceof AbstractView) ? container.element : container;
   const child = (element instanceof AbstractView) ? element.element : element;
+
   switch (place) {
     case renderPosition.BEFOREBEGIN:
       parent.before(child);
@@ -25,18 +26,23 @@ export const render = (container, element, place) => {
       break;
   }
 };
+
 export const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
+
   return newElement.firstElementChild;
 };
+
 export const remove = (component) => {
   if (component === null) {
     return;
   }
+
   if (!(component instanceof AbstractView)) {
     throw new Error('Can remove only components');
   }
+
   component.element.remove();
   component.removeElement();
 };
