@@ -21,3 +21,8 @@ export const COUNTRIES = ['Finland', 'Russia', 'USA', 'France', 'Canada', 'Engla
 export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const COMMENT_TEXTS = ['Interesting setting and a good cast', 'Booooooooooring', 'Very very old. Meh', 'Almost two hours? Seriously?'];
+export const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating'
+};
