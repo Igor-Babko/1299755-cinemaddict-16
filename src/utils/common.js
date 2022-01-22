@@ -26,14 +26,6 @@ export const shuffle = (arr) => {
 
 export const getRandomItems = (arr) => shuffle(arr).slice(0, getRandomInteger(1, arr.length - 1));
 
-export const getRandomPastDate = (maxYearsGap = 0, maxDaysGap = 0) => {
-  const yearsGap = getRandomInteger(0, maxYearsGap);
-  const daysGap = getRandomInteger(0, maxDaysGap);
-  const minutesGap = getRandomInteger(0, 1000);
-
-  return dayjs().subtract(yearsGap, 'year').subtract(daysGap, 'day').subtract(minutesGap, 'minutes').toDate();
-};
-
 export const updateItem = (items, update) => {
   const index = items.findIndex((item) => item.id === update.id);
 
@@ -43,3 +35,13 @@ export const updateItem = (items, update) => {
 
   return [...items.slice(0, index), update, ...items.slice(index + 1)];
 };
+
+export const getRandomPastDate = (maxYearsGap = 0, maxDaysGap = 0) => {
+  const yearsGap = getRandomInteger(0, maxYearsGap);
+  const daysGap = getRandomInteger(0, maxDaysGap);
+  const minutesGap = getRandomInteger(0, 1000);
+
+  return dayjs().subtract(yearsGap, 'year').subtract(daysGap, 'day').subtract(minutesGap, 'minutes').toDate();
+};
+
+
