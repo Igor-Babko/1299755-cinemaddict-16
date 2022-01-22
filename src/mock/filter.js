@@ -1,15 +1,14 @@
 const filmToFilterMap = {
-  WatchList: (films) => films
-    .filter((film) => film.isWatchList).length,
-  History: (films) => films
-    .filter((film) => film.isWatched).length,
-  Favorites: (films) => films
-    .filter((film) => film.isFavorites).length,
+  all: (films) => films.length,
+  watchList: (films) => films.filter(({ userDetails }) => userDetails.isWatchlist).length,
+  history: (films) => films.filter(({ userDetails }) => userDetails.isWatched).length,
+  favorites: (films) => films.filter(({ userDetails }) => userDetails.isFavorite).length,
 };
 
 export const generateFilter = (films) => Object.entries(filmToFilterMap).map(
-  ([filterName, countfilms]) => ({
+  ([filterName, countFilms], index) => ({
     name: filterName,
-    count: countfilms(films),
-  }),
+    count: countFilms(films),
+    isChecked: index === 0,
+  })
 );
