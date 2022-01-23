@@ -72,7 +72,7 @@ export const generateFilm = () => {
   return {
     id,
     commentsId,
-    filmInfo,
-    userDetails,
+    ...filmInfo,
+    ...userDetails,
   };
 };
