@@ -1,12 +1,11 @@
-import { generateComment } from '../mock/comment.js';
+import { EMOTIONS } from '../const.js';
 import { formatReleaseDate, formatRuntime } from '../utils/film.js';
-import AbstractView from './abstract-view.js';
+import SmartView from './smart-view.js';
 
 const createFilmPopupGenresTemplate = (genres) => genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('\n');
 
 const createFilmPopupCommentsTemplate = (comments) => comments.map((commentItem) => {
   const { emotion, comment, author, date } = commentItem;
-
   return `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
@@ -22,52 +21,62 @@ const createFilmPopupCommentsTemplate = (comments) => comments.map((commentItem)
   </li>`;
 }).join('\n');
 
-const createFilmPopupTemplate = (film) => {
+const createFilmPopupEmotionsTemplate = (emotions, commentEmotion) => emotions.map((emotion) => {
+  const isChecked = (emotion === commentEmotion) ? 'checked' : '';
+
+  return `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}" ${isChecked}>
+  <label class="film-details__emoji-label" for="emoji-${emotion}">
+    <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
+  </label>`;
+}).join('\n');
+
+
+const createFilmPopupTemplate = (data) => {
   const {
     commentsId,
-    filmInfo: {
-      title,
-      alternativeTitle,
-      totalRating,
-      poster,
-      ageRating,
-      director,
-      writers,
-      actors,
-      releaseDate,
-      releaseCountry,
-      runtime,
-      genres,
-      description,
-    },
-    userDetails: {
-      isWatchlist,
-      isWatched,
-      isFavorite,
-    },
-  } = film;
+    comments,
+    title,
+    alternativeTitle,
+    totalRating,
+    poster,
+    ageRating,
+    director,
+    writers,
+    actors,
+    releaseDate,
+    releaseCountry,
+    runtime,
+    genres,
+    description,
+    isWatchlist,
+    isWatched,
+    isFavorite,
+    commentText,
+    commentEmotion,
+  } = data;
 
   const writersList = writers.join(', ');
   const actorsList = actors.join(', ');
   const humanizedRuntime = formatRuntime(runtime);
   const humanizedReleaseDate = formatReleaseDate(releaseDate);
   const genresTemplate = createFilmPopupGenresTemplate(genres);
-  const comments = commentsId.map(generateComment);
-  const commentCount = comments.length;
+  const commentCount = commentsId.length;
 
   const watchlistClassName = isWatchlist
     ? 'film-details__control-button--watchlist film-details__control-button--active'
     : 'film-details__control-button--watchlist';
-
   const watchedClassName = isWatched
     ? 'film-details__control-button--watched film-details__control-button--active'
     : 'film-details__control-button--watched';
-
   const favoriteClassName = isFavorite
     ? 'film-details__control-button--favorite film-details__control-button--active'
     : 'film-details__control-button--favorite';
 
   const commentsTemplate = createFilmPopupCommentsTemplate(comments);
+
+  const commentEmotionTemplate = (commentEmotion) ? `<img src="images/emoji/${commentEmotion}.png" width="55" height="55" alt="emoji-${commentEmotion}">` : '';
+
+  const emotionsTemplate = createFilmPopupEmotionsTemplate(EMOTIONS, commentEmotion);
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -140,27 +149,14 @@ const createFilmPopupTemplate = (film) => {
             ${commentsTemplate}
           </ul>
           <div class="film-details__new-comment">
-            <div class="film-details__add-emoji-label"></div>
+            <div class="film-details__add-emoji-label">
+              ${commentEmotionTemplate}
+            </div>
             <label class="film-details__comment-label">
-              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${commentText}</textarea>
             </label>
             <div class="film-details__emoji-list">
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-              <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-              </label>
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-              <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-              </label>
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-              <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-              </label>
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-              <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-              </label>
+              ${emotionsTemplate}
             </div>
           </div>
         </section>
@@ -169,17 +165,31 @@ const createFilmPopupTemplate = (film) => {
   </section>`;
 };
 
-export default class FilmPopupView extends AbstractView {
-  #film = null;
-
-  constructor(film) {
+export default class FilmPopupView extends SmartView {
+  constructor(film, comments) {
     super();
-    this.#film = film;
+    this._data = FilmPopupView.parseFilmToData({ ...film, comments });
+
+    this.#setInnerHandlers();
   }
 
   get template() {
-    return createFilmPopupTemplate(this.#film);
+    return createFilmPopupTemplate(this._data);
   }
+
+  reset = (film, comments) => {
+    this._data = FilmPopupView.parseFilmToData({ ...film, comments });
+    this.updateData(this._data);
+  };
+
+  restoreHandlers = () => {
+    this.setCloseClickHandler(this._callback.closeClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setWatchedClickHandler(this._callback.watchedClick);
+    this.setWatchListClickHandler(this._callback.watchListClick);
+    this.setCommentAddHandler(this._callback.commentAdd);
+    this.#setInnerHandlers();
+  };
 
   setCloseClickHandler = (callback) => {
     this._callback.closeClick = callback;
@@ -201,6 +211,16 @@ export default class FilmPopupView extends AbstractView {
     this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
   };
 
+  setCommentAddHandler = (callback) => {
+    this._callback.commentAdd = callback;
+    this.element.querySelector('.film-details__comment-input').addEventListener('keydown', this.#commentAddHandler);
+  };
+
+  #setInnerHandlers = () => {
+    this.element.querySelector('.film-details__emoji-list').addEventListener('change', this.#commentEmotionChangeHandler);
+    this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#commentTextInputHandler);
+  };
+
   #closeClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.closeClick();
@@ -219,5 +239,31 @@ export default class FilmPopupView extends AbstractView {
   #favoriteClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.favoriteClick();
-  }
+  };
+
+  #commentEmotionChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({ commentEmotion: evt.target.value });
+  };
+
+  #commentTextInputHandler = (evt) => {
+    this.updateData({ commentText: evt.target.value }, true);
+  };
+
+  #commentAddHandler = (evt) => {
+    if (!this._data.commentEmotion || !this._data.commentText) {
+      return;
+    }
+
+    if (evt.code === 'Enter' && (evt.ctrlKey || evt.metaKey)) {
+      const comment = {
+        emotion: this._data.commentEmotion,
+        comment: this._data.commentText,
+      };
+
+      this._callback.commentAdd(comment);
+    }
+  };
+
+  static parseFilmToData = (film) => ({ ...film, commentText: '', commentEmotion: null });
 }
