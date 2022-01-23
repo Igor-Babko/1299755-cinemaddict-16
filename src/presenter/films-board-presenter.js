@@ -100,10 +100,10 @@ export default class FilmsBoardPresenter {
     this.#filmPresenter.forEach((presenter) => presenter.resetView());
   };
 
-  #handleFilmChange = (updatedFilm) => {
+  #handleFilmChange = (updatedFilm, updateComments) => {
     this.#films = updateItem(this.#films, updatedFilm);
     this.#sourcedFilms = updateItem(this.#sourcedFilms, updatedFilm);
-    this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
+    this.#filmPresenter.get(updatedFilm.id).init(updatedFilm, updateComments);
   };
 
   #handleSortTypeChange = (sortType) => {
