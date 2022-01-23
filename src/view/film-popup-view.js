@@ -177,6 +177,11 @@ export default class FilmPopupView extends SmartView {
     return createFilmPopupTemplate(this._data);
   }
 
+  reset = (film, comments) => {
+    this._data = FilmPopupView.parseFilmToData({ ...film, comments });
+    this.updateData(this._data);
+  };
+
   restoreHandlers = () => {
     this.setCloseClickHandler(this._callback.closeClick);
     this.setFavoriteClickHandler(this._callback.favoriteClick);
