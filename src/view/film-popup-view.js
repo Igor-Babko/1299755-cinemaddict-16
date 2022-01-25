@@ -1,17 +1,15 @@
 import { EMOTIONS } from '../const.js';
 import { formatCommentDate, formatReleaseDate, formatRuntime, sortCommentsByDate } from '../utils/film.js';
 import SmartView from './smart-view.js';
-
 const createFilmPopupGenresTemplate = (genres) => genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('\n');
-
 const createFilmPopupCommentsTemplate = (comments = []) => comments
   .slice()
   .sort(sortCommentsByDate)
   .map((commentItem) => {
-    const { emotion, comment, author, date } = commentItem;
+    const { id, emotion, comment, author, date } = commentItem;
     const humanizedCommentDate = formatCommentDate(date);
 
-    return `<li class="film-details__comment">
+    return `<li class="film-details__comment" data-comment-id="${id}">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
       </span>
@@ -25,8 +23,6 @@ const createFilmPopupCommentsTemplate = (comments = []) => comments
       </div>
     </li>`;
   }).join('\n');
-
-
 const createFilmPopupEmotionsTemplate = (emotions, commentEmotion) => emotions.map((emotion) => {
   const isChecked = (emotion === commentEmotion) ? 'checked' : '';
   return `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}" ${isChecked}>
@@ -172,9 +168,13 @@ export default class FilmPopupView extends SmartView {
     return createFilmPopupTemplate(this._data);
   }
 
-  reset = (film, comments) => {
+  restore = (film, comments) => {
     this._data = FilmPopupView.parseFilmToData({ ...film, comments });
     this.updateData(this._data);
+  };
+
+  restoreScrollPosition = () => {
+    this.element.scrollTop = this._data.scrollPosition;
   };
 
   restoreHandlers = () => {
@@ -183,8 +183,14 @@ export default class FilmPopupView extends SmartView {
     this.setWatchedClickHandler(this._callback.watchedClick);
     this.setWatchListClickHandler(this._callback.watchListClick);
     this.setCommentAddHandler(this._callback.commentAdd);
+    this.setCommentDeleteHandler(this._callback.commentDelete);
     this.#setInnerHandlers();
   };
+
+  // todo
+  get state() {
+    return { ...this._data, scrollPosition: this.element.scrollTop };
+  }
 
   scrollToCommentForm = () => {
     this.element.querySelector('.film-details__new-comment').scrollIntoView(false);
@@ -213,6 +219,11 @@ export default class FilmPopupView extends SmartView {
   setCommentAddHandler = (callback) => {
     this._callback.commentAdd = callback;
     this.element.querySelector('.film-details__comment-input').addEventListener('keydown', this.#commentAddHandler);
+  };
+
+  setCommentDeleteHandler = (callback) => {
+    this._callback.commentDelete = callback;
+    this.element.querySelectorAll('.film-details__comment-delete').forEach((element) => element.addEventListener('click', this.#commentDeleteHandler));
   };
 
   #setInnerHandlers = () => {
@@ -262,5 +273,18 @@ export default class FilmPopupView extends SmartView {
     }
   };
 
-  static parseFilmToData = (film) => ({ ...film, commentText: '', commentEmotion: null });
+  #commentDeleteHandler = (evt) => {
+    evt.preventDefault();
+
+    const parentElement = evt.currentTarget.closest('[data-comment-id]');
+
+    if (!parentElement) {
+      return;
+    }
+
+    const id = parentElement.dataset.commentId;
+    this._callback.commentDelete(id);
+  };
+
+  static parseFilmToData = (film) => ({ commentText: '', commentEmotion: null, ...film });
 }
