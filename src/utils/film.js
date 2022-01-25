@@ -15,19 +15,16 @@ export const formatCommentDate = (commentDate) => {
   const date1 = dayjs();
   const date2 = dayjs(commentDate);
   const diffDayCount = date1.diff(date2, 'day');
-
   if (diffDayCount === 0) {
     return 'Today';
   }
-
   if (diffDayCount >= 1 && diffDayCount <= 3) {
     return `${diffDayCount} days ago`;
   }
-
   return dayjs(commentDate).format('YYYY/MM/DD HH:mm');
 };
 
-export const sortFilmsByDate = (prevFilm, currentFilm) => currentFilm.releaseDate.getTime() - prevFilm.releaseDate.getTime();
+export const sortFilmsByDate = (prevFilm, currentFilm) => new Date(currentFilm.releaseDate).getTime() - new Date(prevFilm.releaseDate).getTime();
 
 export const sortFilmsByRating = (prevFilm, currentFilm) => currentFilm.totalRating - prevFilm.totalRating;
 
