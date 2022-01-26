@@ -36,3 +36,22 @@ export const Mode = {
   DEFAULT: 'DEFAULT',
   POPUP: 'POPUP'
 };
+
+export const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites'
+};
+
+export const MenuItem = {
+  STATISTICS: 'stats'
+};
+
+export const StatisticsFilterType = {
+  ALL_TIME: 'all-time',
+  TODAY: 'today',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year'
+};
