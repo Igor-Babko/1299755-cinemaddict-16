@@ -1,6 +1,7 @@
 import { EMOTIONS } from '../const.js';
 import { formatCommentDate, formatReleaseDate, formatRuntime, sortCommentsByDate } from '../utils/film.js';
 import SmartView from './smart-view.js';
+import he from 'he';
 const createFilmPopupGenresTemplate = (genres) => genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('\n');
 const createFilmPopupCommentsTemplate = (comments = []) => comments
   .slice()
@@ -8,7 +9,6 @@ const createFilmPopupCommentsTemplate = (comments = []) => comments
   .map((commentItem) => {
     const { id, emotion, comment, author, date } = commentItem;
     const humanizedCommentDate = formatCommentDate(date);
-
     return `<li class="film-details__comment" data-comment-id="${id}">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
@@ -53,9 +53,10 @@ const createFilmPopupTemplate = (data) => {
     commentText,
     commentEmotion,
   } = data;
+
   const writersList = writers.join(', ');
   const actorsList = actors.join(', ');
-  const humanizedRuntime = formatRuntime(runtime);
+  const humanizedRuntime = formatRuntime(runtime, true);
   const humanizedReleaseDate = formatReleaseDate(releaseDate);
   const genresTemplate = createFilmPopupGenresTemplate(genres);
   const commentCount = commentsId.length;
@@ -187,7 +188,7 @@ export default class FilmPopupView extends SmartView {
     this.#setInnerHandlers();
   };
 
-  // todo
+
   get state() {
     return { ...this._data, scrollPosition: this.element.scrollTop };
   }
@@ -257,7 +258,7 @@ export default class FilmPopupView extends SmartView {
   };
 
   #commentTextInputHandler = (evt) => {
-    this.updateData({ commentText: evt.target.value }, true);
+    this.updateData({ commentText: he.encode(evt.target.value) }, true);
   };
 
   #commentAddHandler = (evt) => {
@@ -275,13 +276,10 @@ export default class FilmPopupView extends SmartView {
 
   #commentDeleteHandler = (evt) => {
     evt.preventDefault();
-
     const parentElement = evt.currentTarget.closest('[data-comment-id]');
-
     if (!parentElement) {
       return;
     }
-
     const id = parentElement.dataset.commentId;
     this._callback.commentDelete(id);
   };
