@@ -15,7 +15,6 @@ const createFilmCardTemplate = (film) => {
     isWatched,
     isFavorite,
   } = film;
-
   const year = dayjs(releaseDate).format('YYYY');
   const humanizedRuntime = formatRuntime(runtime, true);
   const genre = genres[0];
@@ -39,7 +38,7 @@ const createFilmCardTemplate = (film) => {
         <span class="film-card__duration">${humanizedRuntime}</span>
         <span class="film-card__genre">${genre}</span>
       </p>
-      <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+      <img src="./${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${shortDescription}</p>
       <span class="film-card__comments">${commentCount} comments</span>
     </a>
@@ -100,5 +99,4 @@ export default class FilmCardView extends AbstractView {
     evt.preventDefault();
     this._callback.favoriteClick();
   };
-
 }
