@@ -163,7 +163,20 @@ export default class FilmPresenter {
   };
 
   #handleCommentAdd = (comment) => {
-    this.#commentsModel.addComment(this.#film.id, comment);
+    try {
+      console.log('Отправка');
+      const result = this.#commentsModel.addComment(this.#film.id, comment);
+      this.#filmPopupComponent.shakeInputForm();
+      result.then((response) => {
+        if(response instanceof Error){
+          throw new Error('Ошибка сети');
+        }
+      });
+    } catch (err) {
+      console.log('Ошибка');
+      this.#filmPopupComponent.shakeInputForm();
+      throw new Error('Can\'t add comment');
+    }
   };
 
   #handleCommentDelete = (commentId) => {

@@ -12,3 +12,7 @@ export const watchedFilmCountToUserRank = (count) => {
   }
   return userRank;
 };
+
+export const shake = (element) => {
+  element.classList.add('shake');
+};

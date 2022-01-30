@@ -24,13 +24,17 @@ export default class ApiService {
       .then(ApiService.parseResponse);
   }
 
-  addComment(filmId, comment) {
-    return this.#load({
-      url: `comments/${filmId}`,
-      method: Method.POST,
-      body: JSON.stringify(comment),
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-    }).then(ApiService.parseResponse);
+  // addComment(filmId, comment) {
+  //   return this.#load({
+  //     url: `comments/${filmId}`,
+  //     method: Method.POST,
+  //     body: JSON.stringify(comment),
+  //     headers: new Headers({ 'Content-Type': 'application/json' }),
+  //   }).then(ApiService.parseResponse);
+  // }
+  async addComment(filmId, comment) {
+     const response = await fetch('https://16.ecmascript.pages.academy/cinemaddictqeqw');
+    return response;
   }
 
   deleteComment(commentId) {
