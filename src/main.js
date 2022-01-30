@@ -10,16 +10,22 @@ import SiteMenuView from './view/site-menu-view.js';
 import StatisticsView from './view/statistics-view.js';
 import { watchedFilmCountToUserRank } from './utils/common.js';
 import ApiService from './api-service.js';
-
-const filmsModel = new FilmsModel(new ApiService(END_POINT, AUTHORIZATION));
-const filterModel = new FilterModel();
+import CommentsModel from './model/comments-model';
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
+
+const apiService = new ApiService(END_POINT, AUTHORIZATION);
+
+const filmsModel = new FilmsModel(new ApiService(END_POINT, AUTHORIZATION));
+const commentsModel = new CommentsModel(apiService, filmsModel);
+const filterModel = new FilterModel();
+
+
 const siteFooterElement = document.querySelector('.footer');
 const footerStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
 
-const filmsBoardPresenter = new FilmsBoardPresenter(siteMainElement, filmsModel, filterModel);
+const filmsBoardPresenter = new FilmsBoardPresenter(siteMainElement, filmsModel, commentsModel, filterModel);
 const siteMenuComponent = new SiteMenuView();
 const filterPresenter = new FilterPresenter(siteMenuComponent, filterModel, filmsModel);
 let userRank = null;

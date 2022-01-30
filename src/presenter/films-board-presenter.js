@@ -25,11 +25,12 @@ export default class FilmsBoardPresenter {
   #currentSortType = SortType.DEFAULT;
   #isLoading = true;
   #openedPopupData = {};
-
+  #commentsModel = null;
   #isDestroyed = false;
 
-  constructor(filmsBoardContainer, filmsModel, filterModel) {
+  constructor(filmsBoardContainer, filmsModel, commentsModel, filterModel) {
     this.#filmsBoardContainer = filmsBoardContainer;
+    this.#commentsModel = commentsModel;
     this.#filmsModel = filmsModel;
     this.#filterModel = filterModel;
   }
@@ -148,6 +149,12 @@ export default class FilmsBoardPresenter {
     switch (actionType) {
       case UserAction.UPDATE_FILM:
         this.#filmsModel.updateFilm(updateType, update);
+        break;
+      case UserAction.ADD_COMMENT:
+        this.#commentsModel.add(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this.#commentsModel.delete(updateType, update);
         break;
     }
   };
