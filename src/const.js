@@ -20,12 +20,12 @@ export const COMMENT_TEXTS = ['Interesting setting and a good cast', 'Booooooooo
 export const SortType = {
   DEFAULT: 'default',
   DATE: 'date',
-  RATING: 'rating'
+  RATING: 'rating',
 };
 export const UserAction = {
   UPDATE_FILM: 'UPDATE_FILM',
   ADD_COMMENT: 'ADD_COMMENT',
-  DELETE_COMMENT: 'DELETE_COMMENT'
+  DELETE_COMMENT: 'DELETE_COMMENT',
 };
 export const UpdateType = {
   PATCH: 'PATCH',
@@ -36,23 +36,23 @@ export const UpdateType = {
 
 export const Mode = {
   DEFAULT: 'DEFAULT',
-  POPUP: 'POPUP'
+  POPUP: 'POPUP',
 };
 export const FilterType = {
   ALL: 'all',
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
-  FAVORITES: 'favorites'
+  FAVORITES: 'favorites',
 };
 export const MenuItem = {
-  STATISTICS: 'stats'
+  STATISTICS: 'stats',
 };
 export const StatisticsFilterType = {
   ALL_TIME: 'all-time',
   TODAY: 'today',
   WEEK: 'week',
   MONTH: 'month',
-  YEAR: 'year'
+  YEAR: 'year',
 };
 
 export const AUTHORIZATION = 'Basic klsadfjaklsfjlkjaf';
