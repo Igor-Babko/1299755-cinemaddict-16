@@ -29,6 +29,25 @@ export default class FilmsModel extends AbstractObservable {
     this._notify(UpdateType.INIT);
   };
 
+  addComment = (type, filmId, comments) => {
+    const updatedFilm = {
+      ...this.films.find(({id}) => id === filmId),
+      comments: comments
+    };
+
+    this._notify(type, updatedFilm);
+  }
+
+  deleteComment = (type, id) => {
+    const film = this.films.find(({comments}) => comments.includes(id));
+    const updatedFilm = {
+      ...film,
+      comments: film.comments.filter((item) => item !== id)
+    };
+
+    this._notify(type, updatedFilm);
+  }
+
   updateFilm = async (updateType, update) => {
     const index = this.#films.findIndex((film) => film.id === update.id);
 
