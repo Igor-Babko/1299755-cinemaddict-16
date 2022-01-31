@@ -6,6 +6,7 @@ export const RenderPosition = {
   BEFOREEND: 'beforeend',
   AFTEREND: 'afterend',
 };
+
 export const render = (container, element, place) => {
   const parent = (container instanceof AbstractView) ? container.element : container;
   const child = (element instanceof AbstractView) ? element.element : element;
