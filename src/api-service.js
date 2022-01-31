@@ -33,12 +33,12 @@ export default class ApiService {
     }).then(ApiService.parseResponse);
   }
 
-  deleteComment(commentId) {
-    return this.#load({
+  deleteComment = async (commentId) => (
+    await this.#load({
       url: `comments/${commentId}`,
-      method: Method.DELETE,
-    });
-  }
+      method: Method.DELETE
+    })
+  );
 
   updateFilm = async (film) => {
     const response = await this.#load({
