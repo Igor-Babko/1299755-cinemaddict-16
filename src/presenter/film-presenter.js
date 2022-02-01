@@ -97,7 +97,7 @@ export default class FilmPresenter {
     this.#changeMode(this.#film.id);
 
     document.body.classList.add('hide-overflow');
-    document.addEventListener('keydown', this.#onEscKeyDown);
+    document.addEventListener('keydown', this.#EscKeyDownHandler);
 
     this.#commentsModel.addObserver(this.#handleCommentModelEvent);
     await this.#commentsModel.init(this.#film.id);
@@ -126,12 +126,12 @@ export default class FilmPresenter {
 
   #closePopup = () => {
     document.body.classList.remove('hide-overflow');
-    document.removeEventListener('keydown', this.#onEscKeyDown);
+    document.removeEventListener('keydown', this.#EscKeyDownHandler);
     this.#filmPopupComponent.element.remove();
     this.#mode = Mode.DEFAULT;
   };
 
-  #onEscKeyDown = (evt) => {
+  #EscKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.#filmPopupComponent.restore(this.#film, this.comments);
