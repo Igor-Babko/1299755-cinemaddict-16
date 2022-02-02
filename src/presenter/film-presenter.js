@@ -1,14 +1,14 @@
-import FilmCardView from "../view/film-card-view.js";
-import FilmPopupView from "../view/film-popup-view.js";
-import { RenderPosition, render, replace, remove } from "../utils/render.js";
-import { AUTHORIZATION, END_POINT, PopupState, UpdateType, UserAction } from "../const.js";
-import dayjs from "dayjs";
-import CommentsModel from "../model/comments-model.js";
-import ApiService from "../api-service.js";
+import FilmCardView from '../view/film-card-view.js';
+import FilmPopupView from '../view/film-popup-view.js';
+import { RenderPosition, render, replace, remove } from '../utils/render.js';
+import { AUTHORIZATION, END_POINT, PopupState, UpdateType, UserAction } from '../const.js';
+import dayjs from 'dayjs';
+import CommentsModel from '../model/comments-model.js';
+import ApiService from '../api-service.js';
 
 const Mode = {
-  DEFAULT: "DEFAULT",
-  POPUP: "POPUP",
+  DEFAULT: 'DEFAULT',
+  POPUP: 'POPUP',
 };
 export default class FilmPresenter {
   #filmsListContainer = null;
@@ -111,8 +111,8 @@ export default class FilmPresenter {
   #showPopup = async () => {
     this.#changeMode(this.#film.id);
 
-    document.body.classList.add("hide-overflow");
-    document.addEventListener("keydown", this.#EscKeyDownHandler);
+    document.body.classList.add('hide-overflow');
+    document.addEventListener('keydown', this.#EscKeyDownHandler);
 
     this.#commentsModel.addObserver(this.#handleCommentModelEvent);
     await this.#commentsModel.init(this.#film.id);
@@ -143,14 +143,14 @@ export default class FilmPresenter {
   };
 
   #closePopup = () => {
-    document.body.classList.remove("hide-overflow");
-    document.removeEventListener("keydown", this.#EscKeyDownHandler);
+    document.body.classList.remove('hide-overflow');
+    document.removeEventListener('keydown', this.#EscKeyDownHandler);
     this.#filmPopupComponent.element.remove();
     this.#mode = Mode.DEFAULT;
   };
 
   #EscKeyDownHandler = (evt) => {
-    if (evt.key === "Escape" || evt.key === "Esc") {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.#filmPopupComponent.restore(this.#film, this.comments);
       this.#closePopup();
