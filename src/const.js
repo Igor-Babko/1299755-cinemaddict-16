@@ -19,6 +19,13 @@ export const UpdateType = {
   INIT: 'INIT',
 };
 
+export const PopupState = {
+  DELETE: 'deleted',
+  DISABLED: 'disabled',
+  REJECTED: 'rejected',
+  DEFAULT: 'default',
+};
+
 export const FilterType = {
   ALL: 'all',
   WATCHLIST: 'watchlist',
