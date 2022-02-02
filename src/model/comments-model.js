@@ -30,7 +30,7 @@ export default class CommentsModel extends AbstractObservable {
       this.#comments = response.comments;
       this._notify();
     } catch (err) {
-      throw new Error('Can\'t add comment');
+      return  new Error('Can\'t add comment');
     }
   };
 

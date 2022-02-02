@@ -33,6 +33,7 @@ export default class ApiService {
     }).then(ApiService.parseResponse);
   }
 
+
   deleteComment(commentId) {
     return this.#load({
       url: `comments/${commentId}`,

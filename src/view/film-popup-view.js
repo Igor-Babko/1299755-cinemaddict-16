@@ -1,7 +1,10 @@
 import { EMOTIONS } from '../const.js';
 import { formatCommentDate, formatReleaseDate, formatRuntime, sortCommentsByDate } from '../utils/film.js';
 import SmartView from './smart-view.js';
+import {shake} from '../utils/common.js';
 import he from 'he';
+
+
 const createFilmPopupGenresTemplate = (genres) => genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('\n');
 const createFilmPopupCommentsTemplate = (comments = []) => comments
   .slice()
@@ -188,6 +191,10 @@ export default class FilmPopupView extends SmartView {
     this.#setInnerHandlers();
   };
 
+  shakeInputForm() {
+    const commentInput = this.element.querySelector('.film-details__comment-input');
+    shake(commentInput);
+  }
 
   get state() {
     return { ...this._data, scrollPosition: this.element.scrollTop };
