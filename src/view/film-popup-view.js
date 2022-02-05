@@ -269,6 +269,13 @@ export default class FilmPopupView extends SmartView {
     shake(commentInput);
   }
 
+  shakeComment(commentId) {
+    const commentBlock = this.element.querySelector(
+      `[data-comment-id="${commentId}"]`
+    );
+    shake(commentBlock);
+  }
+
   get state() {
     return { ...this._data, scrollPosition: this.element.scrollTop };
   }

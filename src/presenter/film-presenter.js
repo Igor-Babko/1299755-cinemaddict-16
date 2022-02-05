@@ -205,19 +205,25 @@ export default class FilmPresenter {
       .then(({comments})=>{
         this.#commentsModel.addComment(comments);
       })
-      .catch((err)=> {
+      .catch(()=> {
         this.#filmPopupComponent.shakeInputForm();
-        throw new Error(err);
       })
       .finally(() => {
         setTimeout(()=>this.#filmPopupComponent.setState(PopupState.DEFAULT), 300);
       });
   };
 
-  #handleCommentDelete = async (commentId) => {
+  #handleCommentDelete = (commentId) => {
     this.#filmPopupComponent.setState(PopupState.DELETE, commentId);
-    await this.#apiService.deleteComment(commentId);
-    this.#commentsModel.deleteComment(commentId);
-    this.#filmPopupComponent.setState(PopupState.DEFAULT);
+    this.#apiService.deleteComment(commentId)
+      .then(()=> {
+        this.#commentsModel.deleteComment(commentId);
+      })
+      .catch(()=> {
+        this.#filmPopupComponent.shakeComment(commentId);
+      })
+      .finally(() => {
+        setTimeout(()=>this.#filmPopupComponent.setState(PopupState.DEFAULT), 300);
+      });
   };
 }
